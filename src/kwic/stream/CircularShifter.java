@@ -27,6 +27,7 @@ class CircularShifter {
     Stream<String> circularShift(List<String> words) {
         return IntStream.range(0, words.size()).boxed()
                 .filter(startIndex -> !stopWords.contains(words.get(startIndex)))
-                .map(startIndex -> reconstructString(words, startIndex));
+                .map(startIndex -> reconstructString(words, startIndex))
+                .map(keyword -> keyword.substring(0, 1).toUpperCase().concat(keyword.substring(1)));
     }
 }
