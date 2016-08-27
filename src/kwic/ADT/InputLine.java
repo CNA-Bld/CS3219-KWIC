@@ -3,14 +3,20 @@ package kwic.ADT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 class InputLine {
     private ArrayList<String> words;
-    private int size;
 
-    InputLine(String line) {
-        words = new ArrayList<>(Arrays.asList(line.split(" ")));
-        size = words.size();
+    InputLine(String line, Set<String> stopWords) {
+        words = new ArrayList<>();
+        for (String word : line.split(" ")) {
+            if (stopWords.contains(word.toLowerCase())) {
+                words.add(word.toLowerCase());
+            } else {
+                words.add(word);
+            }
+        }
     }
 
     ArrayList<String> getWords() {
@@ -18,6 +24,6 @@ class InputLine {
     }
 
     int getSize() {
-        return size;
+        return words.size();
     }
 }
