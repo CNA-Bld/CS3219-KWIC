@@ -17,7 +17,7 @@ class CircularLine {
                 arr.addAll(inputLine.getWords().subList(index, inputLine.getSize()));
                 if (index != 0) arr.addAll(inputLine.getWords().subList(0, index));
                 String str = String.join(" ", arr);
-                circularSet.add(str.substring(0,1).toUpperCase().concat(str.substring(1)));
+                circularSet.add(str.substring(0, 1).toUpperCase().concat(str.substring(1)));
             }
         }
     }
