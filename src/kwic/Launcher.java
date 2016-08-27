@@ -1,5 +1,8 @@
 package kwic;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.*;
 
 public class Launcher {
@@ -13,8 +16,13 @@ public class Launcher {
             System.err.println("Stop Words file not provided, using default value.");
             stopWords = DEFAULT_STOP_WORDS;
         } else {
-            // TODO: not implemented
-            stopWords = DEFAULT_STOP_WORDS;
+            String filename = args[0];
+            try {
+                stopWords = new HashSet<>(Files.readAllLines(FileSystems.getDefault().getPath(filename)));
+            } catch (IOException e) {
+                System.err.println("IOException when reading Stop Words file, using default value.");
+                stopWords = DEFAULT_STOP_WORDS;
+            }
         }
 
         LinkedList<String> inputLines = new LinkedList<>();
