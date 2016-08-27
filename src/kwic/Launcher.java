@@ -6,25 +6,48 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class Launcher {
-
+    private static final String DEFAULT_PROCESSOR = "kwic.stream.StreamProcessor";
     private static final Set<String> DEFAULT_STOP_WORDS = new HashSet<>(Arrays.asList("is", "the", "of", "and", "as", "a", "after"));
 
-    public static void main(String[] args) {
-        Set<String> stopWords;
+    private static final String FLAG_STOP_WORDS_FILENAME = "stopwords";
+    private static final String FLAG_PROCESSOR_CLASS = "processor";
 
-        if (args.length < 1) {
-            System.err.println("Stop Words file not provided, using default value.");
+    private static final String INFO_STOP_WORDS_NOT_PROVIDED = "Stop Words file not provided, using default value.";
+    private static final String INFO_STOP_WORDS_IOEXCEPTION = "IOException when reading Stop Words file, using default value.";
+    private static final String INFO_PROCESSOR_REFLECTION_FAILED = "Failed to initialize processor.";
+
+    private Set<String> stopWords;
+    private Processor processor;
+
+    public Launcher() {
+        String stopWordsFile = System.getProperty(FLAG_STOP_WORDS_FILENAME);
+        if (stopWordsFile == null) {
+            System.err.println(INFO_STOP_WORDS_NOT_PROVIDED);
             stopWords = DEFAULT_STOP_WORDS;
         } else {
-            String filename = args[0];
             try {
-                stopWords = new HashSet<>(Files.readAllLines(FileSystems.getDefault().getPath(filename)));
+                stopWords = new HashSet<>(Files.readAllLines(FileSystems.getDefault().getPath(stopWordsFile)));
             } catch (IOException e) {
-                System.err.println("IOException when reading Stop Words file, using default value.");
+                System.err.println(INFO_STOP_WORDS_IOEXCEPTION);
                 stopWords = DEFAULT_STOP_WORDS;
             }
         }
 
+        String processorClazz = System.getProperty(FLAG_PROCESSOR_CLASS, DEFAULT_PROCESSOR);
+        try {
+            processor = (Processor) Class.forName(processorClazz).getConstructor().newInstance();
+        } catch (ReflectiveOperationException e) {
+            System.err.println(INFO_PROCESSOR_REFLECTION_FAILED);
+            System.exit(1);
+        }
+    }
+
+    public static void main(String[] args) {
+        Launcher launcher = new Launcher();
+        launcher.execute();
+    }
+
+    public void execute() {
         LinkedList<String> inputLines = new LinkedList<>();
         Scanner scanner = new Scanner(System.in);
 
@@ -34,8 +57,6 @@ public class Launcher {
                 inputLines.add(nextLine);
             }
         }
-
-        Processor processor = new DummyProcessor();
 
         processor.process(inputLines, stopWords).forEach(System.out::println);
     }
