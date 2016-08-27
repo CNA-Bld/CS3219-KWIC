@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class Launcher {
-//    private static final String DEFAULT_PROCESSOR = "kwic.stream.StreamProcessor";
     private static final String DEFAULT_PROCESSOR = "kwic.ADT.ADTProcessor";
     private static final Set<String> DEFAULT_STOP_WORDS = new HashSet<>(Arrays.asList("is", "the", "of", "and", "as", "a", "after"));
 

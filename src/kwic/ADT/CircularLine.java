@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 
-public class CircularLine {
-    Set<String> circularSet;
+class CircularLine {
+    private Set<String> circularSet;
 
-    public CircularLine(InputLine inputLine, Set<String> stopWords) {
+    CircularLine(InputLine inputLine, Set<String> stopWords) {
         circularSet = new HashSet<>();
         for (int index = 0; index < inputLine.getSize(); index++) {
             if (!stopWords.contains(inputLine.getWords().get(index))) {
@@ -19,7 +19,7 @@ public class CircularLine {
         }
     }
 
-    public Set<String> getSet() {
+    Set<String> getSet() {
         return circularSet;
     }
 } 

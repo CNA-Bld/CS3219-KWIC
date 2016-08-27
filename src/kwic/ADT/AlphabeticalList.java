@@ -2,11 +2,10 @@ package kwic.ADT;
 
 import java.util.*;
 
-public class AlphabeticalList {
-
+class AlphabeticalList {
     List<String> alphabeticalList;
 
-    public AlphabeticalList(Set<CircularLine> circularLineSet) {
+    AlphabeticalList(Set<CircularLine> circularLineSet) {
         alphabeticalList = new ArrayList<>();
         Set<String> completeSet = new HashSet<>();
         circularLineSet.forEach(set -> completeSet.addAll(set.getSet()));
@@ -14,9 +13,7 @@ public class AlphabeticalList {
         Collections.sort(alphabeticalList);
     }
 
-    public List<String> getList() {
+    List<String> getList() {
         return alphabeticalList;
     }
-
-
 }

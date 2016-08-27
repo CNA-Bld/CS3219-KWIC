@@ -4,20 +4,20 @@ package kwic.ADT;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InputLine {
-    ArrayList<String> words;
-    int size;
+class InputLine {
+    private ArrayList<String> words;
+    private int size;
 
     InputLine(String line) {
         words = new ArrayList<>(Arrays.asList(line.split(" ")));
         size = words.size();
     }
 
-    public ArrayList<String> getWords() {
+    ArrayList<String> getWords() {
         return words;
     }
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 }
