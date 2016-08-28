@@ -16,6 +16,7 @@ public class StreamProcessor implements Processor {
         return inputLines.parallelStream()
                 .map(tokenizer::tokenize)
                 .flatMap(circularShifter::circularShift)
+                .distinct()
                 .sorted()
                 .collect(Collectors.toList());
     }
